@@ -1,0 +1,7 @@
+var Settings = {
+    host: '',
+    accountPrivatekey: '',
+    contractAddress: ''
+}
+
+module.exports = Settings;

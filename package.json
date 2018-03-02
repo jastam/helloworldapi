@@ -1,0 +1,22 @@
+{
+  "name": "helloworldapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jastam/helloworldapi.git"
+  },
+  "author": "Jasper Tamminga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jastam/helloworldapi/issues"
+  },
+  "homepage": "https://github.com/jastam/helloworldapi#readme",
+  "dependencies": {
+    "web3": "^1.0.0-beta.30"
+  }
+}
