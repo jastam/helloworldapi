@@ -16,7 +16,7 @@ const contract = new web3.eth.Contract(
     null
 );
 
-
+// Function to broadcast messages to all websocket clients
 wss.broadcast = function broadcast(data) {
     wss.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
@@ -25,22 +25,29 @@ wss.broadcast = function broadcast(data) {
     });
 };
 
+
+
+// When a new websocket client connects...
 wss.on('connection', function connection(ws) {
 
+    // ignore errors (dropped connections)
     ws.on('error', function(error) {
         // do nothing
     });
 
+    // receive events from websocket client
     ws.on('message', function incoming(message) {
         const event = JSON.parse(message);
+
         switch (event.eventName) {
             case 'setMessage':
-            setMessage(event.eventData.newMessage);
-            break;
+                setMessage(event.eventData.newMessage);
+                break;
         }
+
     });
 
-    
+    // Get the current message from the contract and send it to the websocket client (once on new connection)
     const getMessage = contract.methods.getMessage();
     getMessage.call().then((message) => {
         const event = JSON.stringify({
@@ -57,6 +64,8 @@ wss.on('connection', function connection(ws) {
 });
 
 
+
+// Listen for the MessageSet event on the contract and forward it to the websocket clients
 contract.events.MessageSet()
 .on('data', function(event){
     console.log('Event:')
@@ -78,6 +87,8 @@ contract.events.MessageSet()
 });
 
 
+
+// Call the setMessage function on the contract
 setMessage = function(newMessage) {
     const setMessage = contract.methods.setMessage(newMessage);
 
