@@ -1,7 +1,8 @@
 var Settings = {
     host: '',
     accountPrivatekey: '',
-    contractAddress: ''
+    contractAddress: '',
+    chainId: 
 }
 
 module.exports = Settings;

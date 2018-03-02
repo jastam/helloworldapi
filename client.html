@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+        <title>WS test</title>
+    </head>
+    <body>
+
+        <div>Current message: <span id="message"></span></div>
+        <label>
+            New message:
+            <input type="text" id="newMessage"/>
+        </label>
+        <button onclick="save()">Save</button>
+
+        <script type="text/javascript">
+            var ws = new WebSocket("ws://localhost:8484/");
+
+            ws.onopen = function()
+            {
+                console.log("Connection is open..."); 
+            };
+
+            ws.onmessage = function (message) 
+            { 
+                const event = JSON.parse(message.data);
+                switch (event.eventName) {
+                    case 'MessageSet':
+                    document.getElementById("message").innerText = event.eventData.newMessage;
+                    break;
+                }
+            };
+             
+            ws.onclose = function()
+            { 
+               console.log("Connection is closed..."); 
+            };
+
+            save = function() {
+                const message = JSON.stringify({
+                    eventName: 'setMessage',
+                    eventData: {
+                        newMessage: document.getElementById("newMessage").value
+                    }
+                })
+
+                ws.send(message);
+            };
+
+        </script>
+    </body>
+</html>
